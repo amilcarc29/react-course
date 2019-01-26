@@ -57,11 +57,11 @@ class App extends Component {
     return (
         <StyleRoot>
           <div className="App">
-          <Cockpit
-            showPersons={this.state.showPersons}
-            persons={this.state.persons}
-            clicked={this.togglePersonsHandler} />
-          {persons}
+            <Cockpit
+              showPersons={this.state.showPersons}
+              persons={this.state.persons}
+              clicked={this.togglePersonsHandler} />
+            {persons}
           </div>
         </StyleRoot>
     );
