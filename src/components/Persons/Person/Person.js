@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import Radium, {StyleRoot} from 'radium';
+import PropTypes from 'prop-types';
 
 import './Person.css';
 
@@ -23,5 +24,12 @@ class Person extends Component {
         );
     }
 }
+
+Person.PropTypes = {
+    click: PropTypes.func,
+    name: PropTypes.string,
+    age: PropTypes.number,
+    changed: PropTypes.func
+};
 
 export default Radium(Person);
