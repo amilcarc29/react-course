@@ -4,6 +4,10 @@ import Persons from '../components/Persons/Persons';
 import Cockpit from '../components/Cockpit/Cockpit';
 import Radium, {StyleRoot} from 'radium'
 
+import withClass2 from '../hoc/withClass2';
+
+export const AuthContext = React.createContext(false);
+
 class App extends Component {
   state = {
     persons: [
@@ -11,7 +15,8 @@ class App extends Component {
       {id: 'asd2', name: 'Manu', age: 29},
       {id: 'asd3', name: 'Stephanie', age: 26}
     ],
-    showPersons: false
+    showPersons: false,
+    authenticated: false
   }
 
   nameChangedHandler = (event, id) => {
@@ -33,14 +38,23 @@ class App extends Component {
   }
 
   deletePersonHandler = (personIndex) => {
-    const persons = this.state.persons.slice(); // [...this.state.persons]; 
+    const persons = [...this.state.persons]; 
     persons.splice(personIndex, 1);
     this.setState({persons: persons});
   }
 
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
-    this.setState({showPersons : !doesShow});
+    this.setState((prevState, props) => {
+      return {
+        showPersons : !doesShow,
+        toggleClicked: prevState.toggleClicked + 1
+      }
+    });
+  }
+
+  loginHandler = () => {
+    this.setState({authenticated: true});
   }
 
   render() {
@@ -56,16 +70,17 @@ class App extends Component {
   
     return (
         <StyleRoot>
-          <div className="App">
             <Cockpit
               showPersons={this.state.showPersons}
               persons={this.state.persons}
+              login={this.loginHandler}
               clicked={this.togglePersonsHandler} />
-            {persons}
-          </div>
+              <AuthContext.Provider value={this.state.authenticated}>
+                {persons}
+              </AuthContext.Provider>
         </StyleRoot>
     );
   }
 }
 
-export default Radium(App);
+export default withClass2(Radium(App), 'App');
